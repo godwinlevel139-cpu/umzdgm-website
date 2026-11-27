@@ -1,0 +1,105 @@
+backend:
+  name: github
+  repo: godwinlevel139-cpu/umzdgm-website   # create the repo with exactly this name, or change it here
+  branch: main
+# publish_mode: editorial_workflow   # uncomment for draft -> review -> publish with Netlify deploy previews
+media_folder: images
+public_folder: /images
+collections:
+  - name: site
+    label: Website content
+    files:
+      - name: site
+        label: Schedule, Mountain Experience, media
+        file: content/site.json
+        fields:
+          - label: Weekly schedule
+            name: schedule
+            widget: list
+            summary: "{{fields.n}}"
+            fields:
+              - {label: Day, name: d, widget: select, options: [{label: Sunday, value: 0}, {label: Monday, value: 1}, {label: Tuesday, value: 2}, {label: Wednesday, value: 3}, {label: Thursday, value: 4}, {label: Friday, value: 5}, {label: Saturday, value: 6}], value_type: int}
+              - {label: Activity name, name: n, widget: string}
+              - {label: Icon (emoji), name: ic, widget: string}
+              - {label: Start time, name: s, widget: datetime, date_format: false, time_format: "HH:mm", format: "HH:mm"}
+              - {label: End time, name: e, widget: datetime, date_format: false, time_format: "HH:mm", format: "HH:mm"}
+          - label: Mountain Experience sessions and livestream links
+            name: sessions
+            widget: list
+            summary: "{{fields.l}}"
+            fields:
+              - {label: Session name, name: l, widget: string}
+              - {label: Date, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD"}
+              - {label: Start time (leave empty if not announced), name: time, widget: datetime, date_format: false, time_format: "HH:mm", format: "HH:mm", required: false}
+              - {label: YouTube live link or video ID, name: yt, widget: string, required: false}
+          - {label: Announcements, name: ann, widget: list, field: {label: Announcement, name: text, widget: text}}
+          - label: Recordings
+            name: recs
+            widget: list
+            summary: "{{fields.t}}"
+            fields:
+              - {label: Title, name: t, widget: string}
+              - {label: YouTube link, name: u, widget: string}
+          - {label: Mountain Experience banner, name: banner, widget: image, required: false}
+          - {label: Event photos, name: photos, widget: list, required: false, field: {label: Photo, name: p, widget: image}}
+          - {label: Church logo, name: logo, widget: image, required: false}
+          - {label: General Overseer photo, name: leader, widget: image, required: false}
+          - {label: Counselling topics, name: topics, widget: list, field: {label: Topic, name: t, widget: string}}
+          - {label: Giving categories, name: giving, widget: list, field: {label: Category, name: c, widget: string}}
+          - label: Bank accounts
+            name: banks
+            widget: list
+            required: false
+            summary: "{{fields.bank}}"
+            fields:
+              - {label: Bank, name: bank, widget: string}
+              - {label: Account name, name: name, widget: string}
+              - {label: Account number, name: number, widget: string}
+          - {label: Bank transfer note shown on the Give page, name: payNote, widget: text, required: false}
+          - {label: Paystack public key (starts with pk_, leave empty to hide online giving), name: paystackKey, widget: string, required: false}
+          - label: Sermons
+            name: sermons
+            widget: list
+            required: false
+            summary: "{{fields.t}}"
+            fields:
+              - {label: Title, name: t, widget: string}
+              - {label: Speaker, name: sp, widget: string, required: false}
+              - {label: Date, name: d, widget: string, required: false}
+              - {label: YouTube link, or link to an audio (.mp3) or document, name: u, widget: string}
+          - {label: Partnership options, name: partnerTypes, widget: list, field: {label: Option, name: p, widget: string}}
+          - label: Contact and social links
+            name: contact
+            widget: object
+            fields:
+              - {label: Phone numbers (each links to WhatsApp), name: phones, widget: list, field: {label: Number, name: n, widget: string}}
+              - {label: Address, name: address, widget: string}
+              - label: Social media links
+                name: socials
+                widget: list
+                required: false
+                fields:
+                  - {label: Name (e.g. Facebook), name: n, widget: string}
+                  - {label: Full link (https://...), name: u, widget: string}
+          - {label: Welcome message (home page), name: welcome, widget: text}
+          - {label: About the ministry (home page), name: about, widget: text}
+          - label: Church activity descriptions
+            name: activities
+            widget: list
+            summary: "{{fields.n}}"
+            fields:
+              - {label: Activity name (must match the schedule name), name: n, widget: string}
+              - {label: Short description, name: d, widget: text}
+      - name: knowledge
+        label: AI assistant knowledge
+        file: content/knowledge.json
+        fields:
+          - {label: About the ministry, name: about, widget: text}
+          - label: Questions and answers
+            name: faqs
+            widget: list
+            summary: "{{fields.q}}"
+            fields:
+              - {label: Question, name: q, widget: string}
+              - {label: Answer, name: a, widget: text}
+          - {label: Extra instructions for the assistant, name: rules, widget: text, required: false}
